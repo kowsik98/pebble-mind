@@ -1,19 +1,19 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import '@firebase/auth';
 import '@firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'YOUR_KEY_HERE_AIzaSyAOWH',
-  authDomain: 'your-auth-domain-b1234.firebaseapp.com',
-  databaseURL: 'https://your-database-name.firebaseio.com',
-  projectId: 'your-project-id-1234',
-  storageBucket: 'your-project-id-1234.appspot.com',
-  messagingSenderId: '12345-insert-yourse',
-  appId: 'insert yours: 1:1234:web:ee873bd1234c0deb7eba61ce',
+  apiKey: "AIzaSyDN0tZ6OT-AIrcs-14nl5jhROIh4-O7S2s",
+  authDomain: "pebble-2ef37.firebaseapp.com",
+  projectId: "pebble-2ef37",
+  storageBucket: "pebble-2ef37.appspot.com",
+  messagingSenderId: "718216776228",
+  appId: "1:718216776228:web:e8464d706975705a72a6b1",
+  measurementId: "G-WN7RDW8TJQ"
 };
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+
+firebase.initializeApp(firebaseConfig);
+
 
 export { firebase };

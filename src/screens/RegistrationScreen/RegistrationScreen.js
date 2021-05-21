@@ -25,6 +25,7 @@ export default function RegistrationScreen({navigation}) {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then((response) => {
+                response.user.sendEmailVerification();
                 const uid = response.user.uid
                 const data = {
                     id: uid,

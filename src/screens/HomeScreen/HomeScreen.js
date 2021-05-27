@@ -1,12 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { Text, View, Button} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import ProfileScreen from '../ProfileScreen/ProfileScreen';
+import DoctorScreen from '../DoctorScreen/DoctorScreen';
 
 function Feed() {
   return (
@@ -15,15 +12,6 @@ function Feed() {
     </View>
   );
 }
-function Doctors() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Doctors!</Text>
-    </View>
-  );
-}
-
-
 function MedicalHistory() {
   return (
     <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
@@ -48,7 +36,7 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: '#e91e63',
+        activeTintColor: '#189AB4',
       }}
     >
       <Tab.Screen
@@ -63,11 +51,11 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Doctors"
-        component={Doctors}
+        component={DoctorScreen}
         options={{
           tabBarLabel: 'Doctors',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+            <MaterialCommunityIcons name="hospital-box" color={color} size={size} />
           ),
         }}
       />
@@ -75,12 +63,11 @@ function MyTabs() {
         name="MedicalHistory"
         component={MedicalHistory}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Medical History',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="history" color={color} size={size} />
           ),
         }}
-        
       />
        <Tab.Screen
         name="Profile"
@@ -91,7 +78,6 @@ function MyTabs() {
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }}
-        
       />
      
       
@@ -100,20 +86,7 @@ function MyTabs() {
 }
 export default function HomeScreen({navigation}) {
 
-    return (
-        /*<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
-            <Button
-              title="Go to Details"
-              onPress={() => navigation.navigate('Details')}
-            />
-            <Button
-            title="profile"
-            onPress={()=> navigation.navigate('Profile')}
-            />
-        </View>*/
-    
-      <MyTabs />
-    
+    return (    
+      <MyTabs />    
     )
 }

@@ -3,14 +3,13 @@ import '@firebase/auth';
 import '@firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDIFPvyNT5z72rHr1srQjBUZaZmWUuzRgQ",
-  authDomain: "pebble-d2835.firebaseapp.com",
-  databaseURL: "https://pebble-d2835-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "pebble-d2835",
-  storageBucket: "pebble-d2835.appspot.com",
-  messagingSenderId: "236624507943",
-  appId: "1:236624507943:web:62a60190c94817dec20a02",
-  measurementId: "G-JBQB4XW21B"
+  apiKey: "AIzaSyDN0tZ6OT-AIrcs-14nl5jhROIh4-O7S2s",
+  authDomain: "pebble-2ef37.firebaseapp.com",
+  projectId: "pebble-2ef37",
+  storageBucket: "pebble-2ef37.appspot.com",
+  messagingSenderId: "718216776228",
+  appId: "1:718216776228:web:e8464d706975705a72a6b1",
+  measurementId: "G-WN7RDW8TJQ"
 };
 
 

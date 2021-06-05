@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>236624507943-qm6bguk79r87i3h252krbn97khae5apk.apps.googleusercontent.com</string>
+	<string>1052596055090-h59d6fp0ccnbbt4qopsbn7ib49sduni7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.236624507943-qm6bguk79r87i3h252krbn97khae5apk</string>
+	<string>com.googleusercontent.apps.1052596055090-h59d6fp0ccnbbt4qopsbn7ib49sduni7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDBxHZuxKUzRUcNYPQD-WNi-_nGwdnvurg</string>
+	<string>AIzaSyCY6SbX_BOyc5psNT3BHDOejXKCeR90elc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>236624507943</string>
+	<string>1052596055090</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.pebble</string>
+	<string>Pebble</string>
 	<key>PROJECT_ID</key>
-	<string>pebble-d2835</string>
+	<string>pebble-8c057</string>
 	<key>STORAGE_BUCKET</key>
-	<string>pebble-d2835.appspot.com</string>
+	<string>pebble-8c057.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:236624507943:ios:f053fe9707da57cec20a02</string>
+	<string>1:1052596055090:ios:cc24e98f7371139883a02b</string>
 </dict>
 </plist>

@@ -1,42 +1,28 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { Text, View, Button} from 'react-native';
+import React,{useState} from 'react';
+import { Text, View, Button, TextInput,StyleSheet, Image, ScrollView,TouchableOpacity} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DoctorScreen from '../DoctorScreen/DoctorScreen';
-
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-function MedicalHistory() {
-  return (
-    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>MedicalHistory</Text>
-    </View>
-  );
-}
-function Profile() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
+import History from './Components/HistoryScreen/History'
+import Profile from './Components/ProfileScreen/Profile'
+import Doctors from './Components/DoctorsScreen/Doctors'
+import Feed from './Components/FeedScreen/Feed'
 
 
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  const [showHistory, setShowHistory] = useState(0)
   return (
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: '#189AB4',
+        activeTintColor: '#e91e63',
       }}
     >
       <Tab.Screen
@@ -49,9 +35,10 @@ function MyTabs() {
           ),
         }}
       />
+      
       <Tab.Screen
         name="Doctors"
-        component={DoctorScreen}
+        component={Doctors}
         options={{
           tabBarLabel: 'Doctors',
           tabBarIcon: ({ color, size }) => (
@@ -60,33 +47,35 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="MedicalHistory"
-        component={MedicalHistory}
+        name="Profile"
+        component={History}
         options={{
           tabBarLabel: 'Medical History',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="history" color={color} size={size} />
+            <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
+          
         }}
       />
-       <Tab.Screen
-        name="Profile"
+      <Tab.Screen
+        name="Notification"
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
           ),
         }}
       />
-     
       
     </Tab.Navigator>
   );
 }
-export default function HomeScreen({navigation}) {
 
-    return (    
-      <MyTabs />    
-    )
+export default function HomeScreen() {
+  return (
+   
+      <MyTabs />
+    
+  );
 }

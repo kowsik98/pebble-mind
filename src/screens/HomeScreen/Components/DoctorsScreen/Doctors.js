@@ -7,11 +7,12 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { ButtonGroup } from 'react-native-elements/dist/buttons/ButtonGroup';
 import { StyleSheet } from 'react-native';
 
- function Doctors(){
+export default function Doctors({navigation}){
     
     return(
         <ScrollView>
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={()=>navigation.navigate('Calendar')}>
                 <View style={styles.card}>
                     <View style={styles.cardImgWrapper}>
                         <Image
@@ -77,9 +78,3 @@ import { StyleSheet } from 'react-native';
 }
 
 
-export default function app(){
-    return(
-        <Doctors/>
-    )
-   
-}

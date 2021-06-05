@@ -11,3 +11,5 @@ export { default as Profile } from './HomeScreen/Components/ProfileScreen/Profil
 export { default as Doctors } from './HomeScreen/Components/DoctorsScreen/Doctors'
 
 export {default as Feed } from './HomeScreen/Components/FeedScreen/Feed'
+
+export {default as Calendar} from './HomeScreen/Components/DoctorsScreen/CalendarScreen/Calendar'

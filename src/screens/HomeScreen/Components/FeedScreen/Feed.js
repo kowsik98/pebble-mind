@@ -7,11 +7,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { ButtonGroup } from 'react-native-elements/dist/buttons/ButtonGroup';
 import { StyleSheet } from 'react-native';
 
-export default function Doctors(){
+export default function Feed({navigation}){
     
     return(
         <View>
             <Text>Feed</Text>
+            <Button
+title="press"
+onPress={()=>navigation.navigate('Profile')}
+/>
         </View>
     )
 }

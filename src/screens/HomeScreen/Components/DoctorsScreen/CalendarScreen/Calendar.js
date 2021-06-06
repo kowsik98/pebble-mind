@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { firebase } from '../../../../../firebase/config'
 
+
 export default function CalendarScreen({navigation}) {
     const docRef = firebase.firestore().collection('doctors')
     const [markedDates, setMarkedDates] = useState({}) 
@@ -10,6 +11,7 @@ export default function CalendarScreen({navigation}) {
     const id = 'HGvRVq82KrgRyViMfDxR'
 
     const updateDate = () => {
+
         var Dates = {}
         if (arr.length != 0){
             arr.forEach(date =>{

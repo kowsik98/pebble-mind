@@ -3,24 +3,21 @@ import { View, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { firebase } from '../../../../../firebase/config'
 
-export default function CalendarScreen() {
+export default function CalendarScreen({navigation}) {
     const docRef = firebase.firestore().collection('doctors')
     const [markedDates, setMarkedDates] = useState({}) 
     const [arr, setArr] = useState([])
     const id = 'HGvRVq82KrgRyViMfDxR'
 
     const updateDate = () => {
-        console.log('Inside updateDate')
         var Dates = {}
         if (arr.length != 0){
             arr.forEach(date =>{
-                console.log('Item '+date)
                 Dates[date] = {selected: true}
             })
             setMarkedDates(Dates)
         }
         else{
-            console.log('Fetching Data')
             fetchData()
         }
     }
@@ -47,7 +44,6 @@ export default function CalendarScreen() {
                 }
             })
             })
-            console.log(data)
             setArr(data)
         })
     }
@@ -58,10 +54,11 @@ export default function CalendarScreen() {
 
     return (
         <View style={{ justifyContent: 'center'}}>
-            <Text style= {{ textAlign:'center', fontSize: 25, fontWeight:'bold',margin: 50 }}>Select a date</Text>
+            <Text style= {{ textAlign:'center', fontSize: 25, fontWeight:'bold',margin: 50 }}>Select a Day</Text>
             <Calendar
                 minDate = {new Date()}
                 markedDates = {markedDates}
+                onDayPress = {(day) => {navigation.navigate('Time', {day: day, id: id})}}
             />
         </View>
     )

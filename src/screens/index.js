@@ -13,3 +13,5 @@ export { default as Doctors } from './HomeScreen/Components/DoctorsScreen/Doctor
 export { default as Feed } from './HomeScreen/Components/FeedScreen/Feed'
 
 export { default as Calendars} from './HomeScreen/Components/DoctorsScreen/CalendarScreen/Calendar'
+
+export { default as Time} from './HomeScreen/Components/DoctorsScreen/CalendarScreen/Time'

@@ -1,18 +1,13 @@
-import React, {useState} from 'react';
-import { View, Text,Image, Button, ScrollView,TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import styles from '../../styles'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { ButtonGroup } from 'react-native-elements/dist/buttons/ButtonGroup';
-import { StyleSheet } from 'react-native';
 
 export default function Doctors({navigation}){
-    
     return(
         <ScrollView>
             <TouchableOpacity
-            onPress={()=>navigation.navigate('Calendar')}>
+                onPress={()=>navigation.navigate('Calendar')}
+            >
                 <View style={styles.card}>
                     <View style={styles.cardImgWrapper}>
                         <Image
@@ -31,8 +26,6 @@ export default function Doctors({navigation}){
                     </View>
                 </View>
             </TouchableOpacity>
-
-
             <TouchableOpacity>
                 <View style={styles.card}>
                     <View style={styles.cardImgWrapper}>
@@ -52,7 +45,6 @@ export default function Doctors({navigation}){
                     </View>
                 </View>
             </TouchableOpacity>
-
             <TouchableOpacity>
                 <View style={styles.card}>
                     <View style={styles.cardImgWrapper}>
@@ -72,7 +64,6 @@ export default function Doctors({navigation}){
                     </View>
                 </View>
             </TouchableOpacity>
-            
         </ScrollView>
     )
 }

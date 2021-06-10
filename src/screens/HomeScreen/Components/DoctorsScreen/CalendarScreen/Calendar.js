@@ -11,7 +11,6 @@ export default function CalendarScreen({navigation}) {
     const id = 'HGvRVq82KrgRyViMfDxR'
 
     const updateDate = () => {
-
         var Dates = {}
         if (arr.length != 0){
             arr.forEach(date =>{
@@ -25,29 +24,29 @@ export default function CalendarScreen({navigation}) {
     }
 
     const fetchData = () => {
-        docRef.doc(id).collection('availability').get()
-        .then(response => {
-            const data = []
-            response.forEach(time => {                
-            var temp = time.data().timing
-            temp.forEach(date => {
-                var day = new Date(date.toDate()).getDate()
-                if (day < 10){
-                    day = '0'+ day
-                }
-                var month = new Date(date.toDate()).getMonth() + 1
-                if (month < 10){
-                    month = '0'+ month
-                }
-                var year = new Date(date.toDate()).getFullYear()
-                var final = year + '-' + month + '-' + day
-                if (!data.includes(final)){
-                    data.push(final)
-                }
-            })
-            })
-            setArr(data)
-        })
+        var today = new Date()
+        const data = []
+        for (var i = 1; i <= 30; i++){
+            var temp = today.setDate(today.getDate() + 1)
+            // console.log(new Date(temp).getDate())
+            if (new Date(temp).getDay() == 0 || new Date(temp).getDay() == 6){
+                continue
+            }
+            var day = new Date(temp).getDate()
+            if (day < 10){
+                day = '0'+ day
+            }
+            var month = new Date(temp).getMonth() + 1
+            if (month < 10){
+                month = '0'+ month
+            }
+            var year = new Date(temp).getFullYear()
+            var final = year + '-' + month + '-' + day
+            if(!data.includes(final)){
+                data.push(final)
+            }
+        }
+        setArr(data)
     }
     
     useEffect(() => {

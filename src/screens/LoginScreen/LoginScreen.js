@@ -7,9 +7,11 @@ import { firebase } from '../../firebase/config'
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
     const onFooterLinkPress = () => {
         navigation.navigate('Registration')
     }
+
     const onLoginPress = () => {
         firebase
             .auth()
@@ -26,7 +28,7 @@ export default function LoginScreen({navigation}) {
                             return;
                         }
                         const user = firestoreDocument.data()
-                        navigation.navigate('Home', {user: user})
+                        navigation.navigate('Doctor')
                     })
                     .catch(error => {
                         alert(error)

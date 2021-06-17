@@ -3,19 +3,21 @@ import React from 'react';
 import { Text, View, Button} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DoctorScreen from '../DoctorScreen/DoctorScreen';
+import DoctorAS from '../DoctorAppointmentSetup/DoctorAS';
+import DoctorProfile from '../DoctorProfile/DoctorProfile';
+import Doctor from '../DoctorProfile/Doctor';
 
 function Feed() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
+      <Text>Doctor - Home screen</Text>
     </View>
   );
 }
-function MedicalHistory() {
+function AppointmentHistory() {
   return (
     <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>MedicalHistory</Text>
+      <Text>AppointmentHistory</Text>
     </View>
   );
 }
@@ -50,8 +52,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Upcoming Appointments"
-        component={DoctorScreen}
+        name="Doctors"
+        component={DoctorAS}
         options={{
           tabBarLabel: 'Doctors',
           tabBarIcon: ({ color, size }) => (
@@ -60,10 +62,10 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="MedicalHistory"
-        component={MedicalHistory}
+        name="AppointmentHistory"
+        component={AppointmentHistory}
         options={{
-          tabBarLabel: 'Medical History',
+          tabBarLabel: 'Appointment History',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="history" color={color} size={size} />
           ),
@@ -71,7 +73,7 @@ function MyTabs() {
       />
        <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={Doctor}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
@@ -84,7 +86,7 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
-export default function HomeScreen({navigation}) {
+export default function DoctorHome({navigation}) {
 
     return (    
       <MyTabs />    

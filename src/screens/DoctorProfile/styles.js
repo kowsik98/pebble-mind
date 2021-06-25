@@ -35,8 +35,8 @@ export default StyleSheet.create({
         width: '100%'
       },
       userImg: {
-        height: 150,
-        width: 150,
+        height: 75,
+        width: 75,
         borderRadius: 75,
         borderWidth: 0.5,
         marginTop:5
@@ -211,7 +211,11 @@ export default StyleSheet.create({
     },
     modalAdd: {
         alignSelf: 'center',
-        marginTop: 15,
+        margin: 15,
+        borderWidth: 3,
+        borderColor: '#f2f2f2',
+        padding: 10,
+        borderRadius: 10,
     },
     deleteBtn: {
         borderWidth: 2,

@@ -9,10 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function AvailabilityScreen() {
 
-    const [available_days, setAvailabilityDays] = useState([])
     const [modal_visible, setModalVisibility] = useState(false);
-    const [modal_time_visible, setModalTimeVisibility] = useState(false);
-    const [recentlyclicked, setRecentlyClicked] = useState('');
     const [monday_working_hours, setM_WorkingHours] = useState([]);
     const [tuesday_working_hours, setTu_WorkingHours] = useState([])
     const [wednesday_working_hours, setW_WorkingHours] = useState([])
@@ -29,50 +26,126 @@ export default function AvailabilityScreen() {
     const [friday, setFriday] = useState(false);
     const [saturday, setSaturday] = useState(false);
     const [sunday, setSunday] = useState(false);
-    const [add_visible, setAddVisible] = useState(false);
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(null);
     const [day, setDay] = useState(null);
-    const [temp_timings, setTempTimings] = useState([]);
+    const [add_M, setAdd_M] = useState([]);
+    const [add_Tu, setAdd_Tu] = useState([]);
+    const [add_W, setAdd_W] = useState([]);
+    const [add_Th, setAdd_Th] = useState([]);
+    const [add_F, setAdd_F] = useState([]);
+    const [add_Sa, setAdd_Sa] = useState([]);
+    const [add_Su, setAdd_Su] = useState([]);
 
 
-    const setTimings = (from, to) => {
+    const showAdd = (val, wd) => {
+        if(wd == 0){
+            if(val == false){
+                setAdd_Su([]);
+            }
+            else{
+                setAdd_Su([...add_Su, 1]);
+            }
+        }
+        
+        if(wd == 1){
+            if(val == false){
+                setAdd_M([]);
+            }
+            else{
+                setAdd_M([...add_M, 1]);
+            }
+        }
 
-        let from_array = from.split('.')
-        setFromTime( new Date(fromTime.setHours(from)));
-        setFromTime( new Date(fromTime.setMinutes(from_array[1])));
-        setToTime(new Date(toTime.setHours(to)));
-        let to_array = to.split('.');
-        setToTime(new Date(toTime.setMinutes(to_array[1])));
-        return;
+        if(wd == 2){
+            if(val == false){
+                setAdd_Tu([]);
+            }
+            else{
+                setAdd_Tu([...add_Tu, 1]);
+            }
+        }
+
+        if(wd == 3){
+            if(val == false){
+                setAdd_W([]);
+            }
+            else{
+                setAdd_W([...add_W, 1]);
+            }
+        }
+
+        if(wd == 4){
+            if(val == false){
+                setAdd_Th([]);
+            }
+            else{
+                setAdd_Th([...add_Th, 1]);
+            }
+        }
+
+        if(wd == 5){
+            if(val == false){
+                setAdd_F([]);
+            }
+            else{
+                setAdd_F([...add_F, 1]);
+            }
+        }
+
+        if(wd == 6){
+            if(val == false){
+                setAdd_Sa([]);
+            }
+            else{
+                setAdd_Sa([...add_Sa, 1]);
+            }
+        }
     }
 
-    const onSave_Timings = () => {
-        let hour_F = fromTime.getHours();
-        let minute_F = fromTime.getMinutes();
-        let hour_T = toTime.getHours();
-        let minute_T = toTime.getMinutes();
+    const deleteTiming = () => {
         
-        let timing_array = [];
-        let temp_index = index;
-        if(index % 2 != 0){
-            index = index + 2;
+        let timing_array = []
+        let new_array = []
+
+        switch(day){
+
+            case 1:
+                new_array = monday_working_hours
+                break
+            case 2:
+                new_array = tuesday_working_hours;
+                break
+            case 3:
+                new_array = wednesday_working_hours;
+                break
+            case 4:
+                new_array = thursday_working_hours;
+                break
+            case 5:
+                new_array = friday_working_hours;
+                break
+            case 6:
+                new_array = saturday_working_hours;
+                break
+            case 0:
+                new_array = sunday_working_hours;
+                break
         }
 
-        if(day == 1){
-            for(let i = 0; i < monday_working_hours.length; i++){
-                timing_array = [...timing_array, parseFloat(monday_working_hours[i].from)];
-                timing_array = [...timing_array, parseFloat(monday_working_hours[i].to)];
-            }
+        //Remove element from new_array
 
-            monday_working_hours[temp_index].from = formatTime(hour_F +"." + minute_F);
-            monday_working_hours[temp_index].to = formatTime(hour_T +"." + minute_T);
+        new_array = new_array.filter(element => element.key != index);
+
+        //Rearrange Keys
+        for(let i = 0; i < new_array.length; i++){
+            new_array[i].key = i;
         }
 
-        
+        for(let i = 0; i < new_array.length; i++){
+            timing_array = [...timing_array, parseFloat(new_array[i].from)];
+            timing_array = [...timing_array, parseFloat(new_array[i].to)];
+        }
 
-        timing_array[index] = parseFloat(hour_F + "." + minute_F);
-        timing_array[index + 1] = parseFloat(hour_T + "." + minute_T);
-        
         const user = firebase.auth().currentUser;
         firebase 
             const data = {
@@ -95,7 +168,163 @@ export default function AvailabilityScreen() {
                     }
                 })
             })
+
+        switch(day){
+
+            case 1:
+                setM_WorkingHours(new_array);
+                break
+            case 2:
+                setTu_WorkingHours(new_array);
+                break
+            case 3:
+                setW_WorkingHours(new_array);
+                break
+            case 4:
+                setTh_WorkingHours(new_array);
+                break
+            case 5:
+                setF_WorkingHours(new_array);
+                break
+            case 6:
+                setSa_WorkingHours(new_array);
+                break
+            case 0:
+                setSu_WorkingHours(new_array);
+                break
+        }
+
+        setModalVisibility(false);
+        return;
+    }
+
+    const setTimings = (from, to) => {
+
+        let from_array = from.split('.')
+        setFromTime( new Date(fromTime.setHours(from)));
+        setFromTime( new Date(fromTime.setMinutes(from_array[1])));
+        setToTime(new Date(toTime.setHours(to)));
+        let to_array = to.split('.');
+        setToTime(new Date(toTime.setMinutes(to_array[1])));
+        return;
+    }
+
+    const onSave_Timings = () => {
+        let hour_F = fromTime.getHours();
+        let minute_F = fromTime.getMinutes();
+        let hour_T = toTime.getHours();
+        let minute_T = toTime.getMinutes();
         
+        let timing_array = [];
+        let temp_index = index;
+        let new_index = index;
+        if(new_index % 2 != 0){
+            new_index = new_index + 1;
+        }
+
+        let new_array = [];
+        switch(day){
+
+            case 1:
+                new_array = monday_working_hours
+                break
+            case 2:
+                new_array = tuesday_working_hours;
+                break
+            case 3:
+                new_array = wednesday_working_hours;
+                break
+            case 4:
+                new_array = thursday_working_hours;
+                break
+            case 5:
+                new_array = friday_working_hours;
+                break
+            case 6:
+                new_array = saturday_working_hours;
+                break
+            case 0:
+                new_array = sunday_working_hours;
+                break
+        }
+
+        if(new_array.length <= index){
+            new_array = [...new_array, {key: temp_index, from: formatTime(hour_F +"." + minute_F), to: formatTime(hour_T +"." + minute_T)}]
+            
+        }
+        else{
+            new_array[temp_index].from = formatTime(hour_F +"." + minute_F);
+            new_array[temp_index].to = formatTime(hour_T +"." + minute_T);
+        }
+        for(let i = 0; i < new_array.length; i++){
+            timing_array = [...timing_array, parseFloat(new_array[i].from)];
+            timing_array = [...timing_array, parseFloat(new_array[i].to)];
+        }
+
+        if(new_array > index){
+            timing_array[new_index] = parseFloat(hour_F + "." + minute_F);
+            timing_array[new_index + 1] = parseFloat(hour_T + "." + minute_T);
+        }
+
+        switch(day){
+
+            case 1:
+                setM_WorkingHours(new_array);
+                break
+            case 2:
+                setTu_WorkingHours(new_array);
+                break
+            case 3:
+                setW_WorkingHours(new_array);
+                break
+            case 4:
+                setTh_WorkingHours(new_array);
+                break
+            case 5:
+                setF_WorkingHours(new_array);
+                break
+            case 6:
+                setSa_WorkingHours(new_array);
+                break
+            case 0:
+                setSu_WorkingHours(new_array);
+                break
+        }
+
+        
+
+        useEffect(() => {
+        const user = firebase.auth().currentUser;
+        firebase 
+            const data = {
+                timing: timing_array,
+            };
+            
+            const docRef = firebase.firestore().collection('doctors');
+            let counter = 0;
+            docRef
+            .doc(user.uid)
+            .collection('availability')
+            .get()
+            .then(timeSnapshot => {
+                timeSnapshot.forEach(dayDoc => {
+                    if(dayDoc.id == day){
+                        counter++;
+                        const dayRef = dayDoc.ref;                        
+                        dayRef
+                        .set(data, {merge: true})
+                    }
+                })
+            })
+
+            if(counter == 0){
+                const aRef = firebase.firestore().collection('doctors').doc(user.uid).collection('availability')
+                aRef
+                .doc(""+day)
+                .set(data, {merge: true})
+
+            }
+        });
         setModalVisibility(false);
         return;
     }
@@ -660,7 +889,7 @@ export default function AvailabilityScreen() {
                         <TouchableOpacity style={styles.button} onPress = {onSave_Timings}>
                             <Text style={styles.buttonTitle}>Save</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress = {deleteTiming}>
                             <Text style={styles.buttonTitle}>Delete</Text>
                         </TouchableOpacity></View>
                     </View>
@@ -679,28 +908,45 @@ export default function AvailabilityScreen() {
 
                 <View style = {{margin: 10}}>
                              
-                <CheckBox title = "Monday" checked = {monday} onPress={() => {setMonday(!monday); setDay(1); getMondayTimings(); }} /> 
-                                
+                <CheckBox title = "Monday" checked = {monday} onPress={() => {setMonday(!monday); setDay(1); getMondayTimings(); showAdd(!monday, 1)}} /> 
+                
+                 
                 <View>
+                    
                     {
-                                
+                            
                         monday_working_hours.map((item) => (
+                        
                                 
-                        <ListItem key = {item.key}  style = {{borderBottomWidth:1, borderColor: '#e2e2e2', marginLeft: 30, marginRight: 30, marginBottom: 5}} onPress = {()=> {setModalVisibility(true); setTimings(item.from, item.to); setIndex(item.key);}}>
+                        <ListItem key = {item.key}  style = {{ borderBottomWidth:1, borderColor: '#e2e2e2', marginLeft: 30, marginRight: 30, marginBottom: 5}} onPress = {()=> {setModalVisibility(true); setTimings(item.from, item.to); setIndex(item.key);}}>
                                 
-                        <ListItem.Content >
+                        <ListItem.Content>
                             
                         <ListItem.Title style = {{fontSize: 14, fontWeight: 'bold', margin: 5}}>{item.from} - {item.to}</ListItem.Title>
                         </ListItem.Content>
                         <ListItem.Content/>
                         </ListItem>
                                 
-                        ))         
-                                               
+                        )) 
+                        
                     }
-                </View>                 
 
-                <CheckBox title = "Tuesday" checked = {tuesday} onPress={() => {setTuesday(!tuesday); setDay(2); getTuesdayTimings();  }} />                   
+                </View>     
+                
+                <View>
+                    {
+                            
+                        add_M.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(monday_working_hours.length); }}/>
+                                
+                        )) 
+                       
+                    }
+                </View>      
+                    
+
+                <CheckBox title = "Tuesday" checked = {tuesday} onPress={() => {setTuesday(!tuesday); setDay(2); getTuesdayTimings(); showAdd(!tuesday, 2)}} />                   
                 
                 <View>
                     {
@@ -720,8 +966,20 @@ export default function AvailabilityScreen() {
                                                
                     }
                 </View> 
+
+                <View>
+                    {
+                            
+                        add_Tu.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(tuesday_working_hours.length);}}/>
                                 
-                <CheckBox title = "Wednesday" checked = {wednesday} onPress={() => {setWednesday(!wednesday); getWednesdayTimings(); setDay(3);}} />  
+                        )) 
+                       
+                    }
+                </View>      
+                                
+                <CheckBox title = "Wednesday" checked = {wednesday} onPress={() => {setWednesday(!wednesday); setDay(3); getWednesdayTimings(); showAdd(!wednesday, 3); }} />  
   
                 <View>
                     {
@@ -741,8 +999,19 @@ export default function AvailabilityScreen() {
                                                
                     }
                 </View> 
+                <View>
+                    {
+                            
+                        add_W.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(wednesday_working_hours.length);}}/>
+                                
+                        )) 
+                       
+                    }
+                </View>      
                 
-                <CheckBox title = "Thursday" checked = {thursday} onPress={() => {setThursday(!thursday); getThursdayTimings(); setDay(4);}} />  
+                <CheckBox title = "Thursday" checked = {thursday} onPress={() => {setThursday(!thursday); setDay(4); getThursdayTimings(); showAdd(!thursday, 4); }} />  
 
                 <View>
                     {
@@ -763,7 +1032,19 @@ export default function AvailabilityScreen() {
                     }
                 </View> 
 
-                <CheckBox title = "Friday" checked = {friday} onPress={() => {setFriday(!friday); getFridayTimings(); setDay(5);}} />  
+                <View>
+                    {
+                            
+                        add_Th.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(thursday_working_hours.length);}}/>
+                                
+                        )) 
+                       
+                    }
+                </View>  
+
+                <CheckBox title = "Friday" checked = {friday} onPress={() => {setFriday(!friday); setDay(5); getFridayTimings(); showAdd(!friday, 5);}} />  
 
                 <View>
                     {
@@ -783,8 +1064,20 @@ export default function AvailabilityScreen() {
                                                
                     }
                 </View> 
+
+                <View>
+                    {
+                            
+                        add_F.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(friday_working_hours.length);}}/>
+                                
+                        )) 
+                       
+                    }
+                </View>      
                 
-                <CheckBox title = "Saturday" checked = {saturday} onPress={() => {setSaturday(!saturday); getSaturdayTimings(); setDay(6);}} />  
+                <CheckBox title = "Saturday" checked = {saturday} onPress={() => {setSaturday(!saturday);setDay(6); getSaturdayTimings(); showAdd(!saturday, 6);}} />  
 
                 <View>
                     {
@@ -804,8 +1097,20 @@ export default function AvailabilityScreen() {
                                                
                     }
                 </View> 
+
+                <View>
+                    {
+                            
+                        add_Sa.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(saturday_working_hours.length);}}/>
+                                
+                        )) 
+                       
+                    }
+                </View>      
                 
-                <CheckBox title = "Sunday" checked = {sunday} onPress={() => {setSunday(!sunday); getSundayTimings(); setDay(0);}} />  
+                <CheckBox title = "Sunday" checked = {sunday} onPress={() => {setSunday(!sunday); setDay(0); getSundayTimings(); showAdd(!sunday, 0); }} />  
                    
                 <View>
                     {
@@ -825,14 +1130,22 @@ export default function AvailabilityScreen() {
                                                
                     }
                 </View> 
+
+                <View>
+                    {
+                            
+                        add_Su.map((item) => (
+                            
+                            <MaterialIcons key = "1" name= 'add' size = {20} style = {styles.modalAdd} onPress = {() => {setModalVisibility(true); setIndex(sunday_working_hours.length);}}/>
+                                
+                        )) 
+                       
+                    }
+                </View>      
                     
                 </View>
                 
-                <View style = {styles.footerView}>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonTitle}>Save</Text>
-                        </TouchableOpacity>
-                    </View>
+                
                 </ScrollView>
    
             </SafeAreaView>

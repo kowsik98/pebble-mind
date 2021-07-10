@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState('null')
 
   return (
     <NavigationContainer>

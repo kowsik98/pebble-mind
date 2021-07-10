@@ -1,121 +1,74 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text } from 'react-native';
-import { Button, Caption } from 'react-native-paper';
+import { View, Text } from 'react-native'
+import { Button, Caption } from 'react-native-paper'
 import styles from './styles'
-import { firebase } from '../../../../../firebase/config'
 
 export default function Time({route, navigation}) {
     const date = route.params.day.dateString
-    const day = new Date(route.params.day.timestamp).getDay()-1
-    const docID = route.params.id
-    const dataRef = firebase.firestore().collection('doctors').doc(docID).collection('availability')
-    const appRef = firebase.firestore().collection('appointments')
+    const day = new Date(route.params.day.timestamp).getDay()
+    const doctor_id = route.params.doctor_id
     const [booked, setBooked] = useState([])
-    const [range, setRange] = useState([])    
-    const [appSearched, setAppSearched] = useState(0)
+    const [availableTimings, setAvailableTimings] = useState([])
+    const days = {0:'sun', 1:'mon', 2:'tue', 3:'wed', 4:'thu', 5:'fri', 6:'sat'}
 
-    const splitTimings = () => {
-        if(appSearched){
-            dataRef.get()
-            .then(response => {
-            var temp = []
-            response.forEach(doc => {
-                if(doc.id == day){
-                    var tempValues = []
-                    const timings =  doc.data().timing
-                    timings.forEach((value, index) => {
-                        if (index % 2 == 0){
-                            var lowerLimit = value
-                            var upperLimit = timings[index+1]
-                            while(lowerLimit <= upperLimit){
-                                tempValues.push(lowerLimit)
-                                ++lowerLimit
-                            }
-                        }
-                    })
-                    tempValues.forEach(val => {
+    const fetchData = () => {
+        fetch('https://pebble-test.herokuapp.com/doctors/' + doctor_id + '/availability')
+            .then(response => response.json())
+            .then(data => {
+                const tempValues = []
+                var temp = []
+                for(const [key, value] of Object.entries(data[0].availability)){
+                    if(key === days[day]){
+                        tempValues.push(...value.timing)
+                    }
+                }
+                tempValues.forEach(val => {
+                    if (booked.includes(val)){
+                        return false
+                    }
+                    if (val > 12){
+                        val = val -12
+                        val = val +'.00 PM'
                         if (booked.includes(val)){
                             return false
                         }
-                        if (val > 12){
-                            val = val -12
-                            val = val +'.00 PM'
-                            if (booked.includes(val)){
-                                return false
-                            }
-                            else{
-                                temp.push(val)
-                            }
+                        else{
+                            temp.push(val)
+                        }
+                    }
+                    else if (val === 12) {
+                        val = val +'.00 PM'
+                        if (booked.includes(val)){
+                            return false
                         }
                         else{
-                            val = val + '.00 AM'
-                            if (booked.includes(val)){
-                                return false
-                            }
-                            else{
-                                temp.push(val)
-                            }
+                            temp.push(val)
                         }
-                    })
-                }
-            })
-            setRange(temp)
-        })
-        }
-        else{
-            fetchData()
-        }    
-    }
-
-    const fetchData = () => {
-        appRef.doc(docID).get()
-        .then(response => {
-            var tempVal = []
-            var dates = response.data().dates
-            if (dates.length == 0){
-                return false
-            }
-            else{
-                dates.forEach(Time => {
-                    var day = new Date(Time.toDate()).getDate()
-                    if (day < 10){
-                        day = '0'+ day
                     }
-                    var month = new Date(Time.toDate()).getMonth() + 1
-                    if (month < 10){
-                        month = '0'+ month
-                    }
-                    var year = new Date(Time.toDate()).getFullYear()
-                    var final = year + '-' + month + '-' + day
-                    if (final == date) {
-                        var time = new Date(Time.toDate()).getHours()
-                        if (time > 12){
-                            time = time - 12
-                            time = time + '.00 PM'
-                            tempVal.push(time)
+                    else{
+                        val = val + '.00 AM'
+                        if (booked.includes(val)){
+                            return false
                         }
                         else{
-                            time = time + '.00 AM'
-                            tempVal.push(time)
+                            temp.push(val)
                         }
                     }
                 })
-            }
-            setBooked(tempVal)
-        })
-        setAppSearched(1)
+                setAvailableTimings(temp)
+            })
     }
 
     useEffect(() => {
-        splitTimings()
-    }, [ booked ])
+        fetchData()
+    }, [ availableTimings ])
 
     return (
         <View style={styles.conatiner}>
             <Text style= {{ textAlign:'center', fontSize: 25, fontWeight:'bold',marginTop: 50 }}>Select a Time</Text>
             <Caption style={{ marginBottom: 50 }}>Duration: 1 Hour</Caption>
             {
-                range.map((value, key) => (
+                availableTimings.map((value, key) => (
                     <Button 
                         key = { key }
                         mode="outlined"
@@ -131,7 +84,7 @@ export default function Time({route, navigation}) {
                     </Button>
                 ))
             }
-            {
+            {/* {
                 booked.map((value, key) => (
                     <Button 
                         key = { key }
@@ -147,7 +100,7 @@ export default function Time({route, navigation}) {
                         { value } (Booked)
                     </Button>
                 ))
-            }
+            } */}
         </View>
     )
 }

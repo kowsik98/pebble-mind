@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView} from 'react-native'
 import { Button, Caption } from 'react-native-paper'
 import styles from './styles'
 
@@ -7,63 +7,81 @@ export default function Time({route, navigation}) {
     const date = route.params.day.dateString
     const day = new Date(route.params.day.timestamp).getDay()
     const doctor_id = route.params.doctor_id
-    const [booked, setBooked] = useState([])
+    const [bookedTimings, setBookedTimings] = useState([])
     const [availableTimings, setAvailableTimings] = useState([])
     const days = {0:'sun', 1:'mon', 2:'tue', 3:'wed', 4:'thu', 5:'fri', 6:'sat'}
 
     const fetchData = () => {
-        fetch('https://pebble-test.herokuapp.com/doctors/' + doctor_id + '/availability')
-            .then(response => response.json())
-            .then(data => {
-                const tempValues = []
-                var temp = []
-                for(const [key, value] of Object.entries(data[0].availability)){
-                    if(key === days[day]){
-                        tempValues.push(...value.timing)
+        if(bookedTimings.length === 0){
+            fetch('https://pebble-test.herokuapp.com/doctors/' + doctor_id + '/appointments')
+                .then(response => response.json())
+                .then(data => {
+                    var tempTimings = []
+                    data.forEach((doc) => {
+                        var check = new Date(Date.parse(doc.date)).toISOString().slice(0, 10)
+                        if(date === check){
+                            tempTimings.push(doc.time)
+                        }                        
+                    })
+                    if (tempTimings.length !== 0){
+                        setBookedTimings(tempTimings)
                     }
-                }
-                tempValues.forEach(val => {
-                    if (booked.includes(val)){
-                        return false
+                    if (availableTimings.length === 0) {
+                        fetch('https://pebble-test.herokuapp.com/doctors/' + doctor_id + '/availability')
+                        .then(response => response.json())
+                        .then(data => {
+                            const timings = []
+                            var tempValues = []
+                            var temp = []
+                            for(const [key, value] of Object.entries(data[0].availability)){
+                                if(key === days[day]){
+                                    timings.push(...value.timing)
+                                }
+                            }
+                            timings.forEach((value, index) => {
+                                if (index % 2 == 0){
+                                    var lowerLimit = value
+                                    var upperLimit = timings[index+1]
+                                    while(lowerLimit <= upperLimit){
+                                        tempValues.push(lowerLimit)
+                                        ++lowerLimit
+                                    }
+                                }
+                            })
+                            tempValues.forEach(val => {
+                                if (val > 12){
+                                    val = val -12
+                                    val = val +'.00 PM'
+                                }
+                                else if (val === 12) {
+                                    val = val +'.00 PM'
+                                }
+                                else{
+                                    val = val + '.00 AM'
+                                }
+                                if (tempTimings.includes(val)){
+                                    return false
+                                }
+                                else{
+                                    temp.push(val)
+                                }
+            
+                            })
+                            setAvailableTimings(temp)
+                        })
                     }
-                    if (val > 12){
-                        val = val -12
-                        val = val +'.00 PM'
-                        if (booked.includes(val)){
-                            return false
-                        }
-                        else{
-                            temp.push(val)
-                        }
-                    }
-                    else if (val === 12) {
-                        val = val +'.00 PM'
-                        if (booked.includes(val)){
-                            return false
-                        }
-                        else{
-                            temp.push(val)
-                        }
-                    }
-                    else{
-                        val = val + '.00 AM'
-                        if (booked.includes(val)){
-                            return false
-                        }
-                        else{
-                            temp.push(val)
-                        }
-                    }
+                    
                 })
-                setAvailableTimings(temp)
-            })
+                .catch((error) => console.log(error))
+        }     
     }
 
     useEffect(() => {
         fetchData()
-    }, [ availableTimings ])
+    }, [ bookedTimings, availableTimings ])
 
     return (
+        <ScrollView>
         <View style={styles.conatiner}>
             <Text style= {{ textAlign:'center', fontSize: 25, fontWeight:'bold',marginTop: 50 }}>Select a Time</Text>
             <Caption style={{ marginBottom: 50 }}>Duration: 1 Hour</Caption>
@@ -84,8 +102,8 @@ export default function Time({route, navigation}) {
                     </Button>
                 ))
             }
-            {/* {
-                booked.map((value, key) => (
+            {
+                bookedTimings.map((value, key) => (
                     <Button 
                         key = { key }
                         disabled = "true"
@@ -100,7 +118,8 @@ export default function Time({route, navigation}) {
                         { value } (Booked)
                     </Button>
                 ))
-            } */}
+            }
         </View>
+        </ScrollView>
     )
 }

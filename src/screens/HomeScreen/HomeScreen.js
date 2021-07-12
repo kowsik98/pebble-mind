@@ -11,12 +11,13 @@ import Feed from './Components/FeedScreen/Feed'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+export default function HomeScreen({route}) {
+  const userID = route.params.user._id
   return (
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: '#e91e63',
+      activeTintColor: '#e91e63',
       }}
     >
       <Tab.Screen
@@ -40,18 +41,18 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="History"
         component={History}
+        initialParams={{userID: userID}}
         options={{
-          tabBarLabel: 'Medical History',
+          tabBarLabel: 'Appoinments',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-          
+          ),   
         }}
       />
       <Tab.Screen
-        name="Notification"
+        name="Profile"
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
@@ -60,12 +61,6 @@ function MyTabs() {
           ),
         }}
       />
-    </Tab.Navigator>
-  );
-}
-
-export default function HomeScreen() {
-  return (
-      <MyTabs />
+  </Tab.Navigator>
   );
 }

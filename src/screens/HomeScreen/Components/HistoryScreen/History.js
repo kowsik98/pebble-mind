@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
-import { View, Text,Image, Button, ScrollView,TouchableOpacity } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import styles from '../../styles'
+import React from 'react'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import UpcomingAppointments from './Components/UpcomingAppointments'
 import CompletedAppointments from './Components/CompletedAppointments'
 
@@ -12,10 +10,10 @@ export default function App({route, navigation}) {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Upcoming">
-        {props => <UpcomingAppointments userID={userID} />}
+        {props => <UpcomingAppointments userID={userID} navigation={navigation} />}
       </Tab.Screen>
       <Tab.Screen name="Completed">
-        {props => <CompletedAppointments userID={userID} />}
+        {props => <CompletedAppointments userID={userID} navigation={navigation} />}
       </Tab.Screen>
     </Tab.Navigator>
   );

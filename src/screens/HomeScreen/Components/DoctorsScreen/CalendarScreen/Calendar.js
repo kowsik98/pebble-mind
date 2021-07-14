@@ -70,7 +70,7 @@ export default function CalendarScreen({route, navigation}) {
             <Calendar
                 minDate = {new Date()}
                 markedDates = {markedDates}
-                onDayPress = {(day) => {navigation.navigate('Time', {day: day, doctor_id: doctor_id})}}
+                onDayPress = {(day) => {navigation.navigate('Time', {day: day, doctor_id: doctor_id, userID: route.params.userID})}}
             />
         </View>
     )

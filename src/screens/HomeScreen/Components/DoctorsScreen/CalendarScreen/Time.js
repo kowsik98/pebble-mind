@@ -42,6 +42,7 @@ export default function Time({route, navigation}) {
                                 if (index % 2 == 0){
                                     var lowerLimit = value
                                     var upperLimit = timings[index+1]
+                                    //check for decimal value
                                     while(lowerLimit <= upperLimit){
                                         tempValues.push(lowerLimit)
                                         ++lowerLimit
@@ -49,15 +50,40 @@ export default function Time({route, navigation}) {
                                 }
                             })
                             tempValues.forEach(val => {
-                                if (val > 12){
-                                    val = val -12
-                                    val = val +'.00 PM'
+                                if (val >= 13){
+                                    val = val - 12
+                                    if (val % 1 === 0){
+                                        if (val < 10){
+                                            val = '0' + val + ':00 PM' 
+                                        }
+                                        else{
+                                            val = val + ':00 PM'
+                                        } 
+                                    }
+                                    else{
+                                        val = val + (val % 1) +' PM'
+                                    }
                                 }
-                                else if (val === 12) {
-                                    val = val +'.00 PM'
+                                else if (val < 12) {
+                                    if (val % 1 === 0){
+                                        if (val < 10){
+                                            val = '0' + val + ':00 AM' 
+                                        }
+                                        else{
+                                            val = val + ':00 AM'
+                                        }
+                                    }
+                                    else{
+                                        val = val + (val % 1) +' AM'
+                                    }                                    
                                 }
                                 else{
-                                    val = val + '.00 AM'
+                                    if (val % 1 === 0){
+                                        val = val + ':00 PM'
+                                    }
+                                    else{
+                                        val = val + (val % 1) +' PM'
+                                    }  
                                 }
                                 if (tempTimings.includes(val)){
                                     return false
@@ -96,7 +122,7 @@ export default function Time({route, navigation}) {
                                 primary: "#006BFF",
                             },
                         }}
-                        onPress={() => console.log("Time Selected is " + value)}
+                        onPress={() => navigation.navigate('Details', {date: date, time: value, doctor_id: doctor_id, userID: route.params.userID})}
                     >
                         { value }
                     </Button>

@@ -33,6 +33,7 @@ export default function HomeScreen({route}) {
       <Tab.Screen
         name="Doctors"
         component={Doctors}
+        initialParams={{userID: userID}}
         options={{
           tabBarLabel: 'Doctors',
           tabBarIcon: ({ color, size }) => (

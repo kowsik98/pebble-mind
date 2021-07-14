@@ -15,3 +15,7 @@ export { default as Feed } from './HomeScreen/Components/FeedScreen/Feed'
 export { default as Calendars} from './HomeScreen/Components/DoctorsScreen/CalendarScreen/Calendar'
 
 export { default as Time} from './HomeScreen/Components/DoctorsScreen/CalendarScreen/Time'
+
+export { default as DetailsPreview } from './HomeScreen/Components/DoctorsScreen/CalendarScreen/DetailsPreview'
+
+export { default as AppointmentDetails } from './HomeScreen/Components/HistoryScreen/Components/AppointmentDetails'

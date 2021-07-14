@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import styles from '../../styles'
 
-export default function Doctors({navigation}){
-
+export default function Doctors({route, navigation}){
     const [docData, setDocData] = useState([])
 
     const fetchData = () => {
@@ -28,7 +27,7 @@ export default function Doctors({navigation}){
             {
                 docData.map((value, key) => (
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Calendar', { doctor_id: value.doctor_id })}
+                        onPress={() => navigation.navigate('Calendar', { doctor_id: value.doctor_id, userID: route.params.userID })}
                         key = {key}
                     >
                         <View style={styles.card}>

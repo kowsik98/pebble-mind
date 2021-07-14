@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, Button, } from 'react-native';
+import { View, Text, } from 'react-native';
 
 export default function Feed({navigation}){
     return(
-        <View>
-            <Text>Feed</Text>
+        <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text>Home</Text>
         </View>
     )
 }

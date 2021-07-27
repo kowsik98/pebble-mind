@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Alert, Image, Text, TextInput, TouchableOpacity, View, SafeAreaView, ScrollView } from 'react-native'
 
-import { firebase } from '../../firebase/config'
-import styles from '../UserProfile/styles';
+import { firebase } from '../../../firebase/config'
+import styles from '../../UserProfile/styles';
 
 
 

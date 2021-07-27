@@ -3,9 +3,9 @@ import React from 'react';
 import { Text, View, Button} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DoctorAS from '../DoctorAppointmentSetup/DoctorAS';
-import DoctorProfile from '../DoctorProfile/DoctorProfile';
-import Doctor from '../DoctorProfile/Doctor';
+import DoctorAS from '../DoctorScreens/DoctorAppointmentSetup/DoctorAS';
+import DoctorProfile from '../DoctorScreens/DoctorProfile/DoctorProfile';
+import Doctor from '../DoctorScreens/DoctorProfile/Doctor';
 
 function Feed() {
   return (
@@ -86,7 +86,7 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
-export default function DoctorHome({navigation}) {
+export default function DoctorHomeScreen({navigation}) {
 
     return (    
       <MyTabs />    

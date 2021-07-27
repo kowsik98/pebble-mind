@@ -1,12 +1,11 @@
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { LoginScreen, RegistrationScreen, HomeScreen, Calendars, Time, DetailsPreview, AppointmentDetails, Doctors, DoctorHomeScreen, DoctorProfile } from './src/screens'
 
-import { LoginScreen, ImageUploader, HomeScreen, RegistrationScreen,DetailsScreen,ProfileScreen, DoctorScreen, DoctorAppointmentSetup, DoctorProfile, DoctorHome, UserProfile} from './src/screens'
+
 import {decode, encode} from 'base-64'
-import Credentials from './src/screens/DoctorProfile/Credentials';
-import AvailabilityScreen from './src/screens/DoctorProfile/AvailabilityScreen';
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
@@ -18,27 +17,28 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
         { user ? (
-          <>
-          <Stack.Screen name="Home">
-            {props => <HomeScreen {...props} extraData={user} />}
-          </Stack.Screen>
-          </>  
-          
+          <Stack.Navigator>
+            <Stack.Screen name="Home">
+              {props => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="Calendar" component={Calendars}/>         
+            <Stack.Screen name="Time" component={Time}/>
+          </Stack.Navigator>
         ) : (
-          <>
-            
+          <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Doctor Home" component={DoctorHomeScreen} />
+            <Stack.Screen name="Doctor Profile" component={DoctorProfile} />
+            <Stack.Screen name="Doctor" component={Doctors} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
-            <Stack.Screen name="Doctor" component={DoctorHome} />
-            <Stack.Screen name = "My Credentials" component = {Credentials} />
-            <Stack.Screen name="Home" component={HomeScreen} />    
-            <Stack.Screen name="Doctor Profile" component={DoctorProfile} />  
-            <Stack.Screen name="Availability" component={AvailabilityScreen} />             
-          </>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Calendar" component={Calendars}/>         
+            <Stack.Screen name="Time" component={Time}/>
+            <Stack.Screen name="Details" component={DetailsPreview}/>
+            <Stack.Screen name="AppointmentDetails" component={AppointmentDetails} />
+          </Stack.Navigator>
         )}
-      </Stack.Navigator>
     </NavigationContainer>
   );
 }

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import {Image, Text, TextInput, TouchableOpacity, View, SafeAreaView, ScrollView, Button} from 'react-native'
-import { firebase } from '../../firebase/config'
-import styles from '../UserProfile/styles';
-import launchImageLibrary from 'react-native-image-picker';
+import { firebase } from '../../../firebase/config'
+import styles from '../../UserProfile/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -16,20 +15,12 @@ export default function DoctorProfile({navigation}) {
     const[dob, setDOB] = useState(new Date())
     const [dob_str, setDOBString] = useState('');
     const [photo, setPhoto] = React.useState(null);
+    const [id, setID] = useState('');
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setDOB(currentDate);
       };
-
-    const handleChoosePhoto = () => {
-        launchImageLibrary({ noData: true }, (response) => {
-        // console.log(response);
-        if (response) {
-            setPhoto(response);
-        }
-        });
-    }
 
     const loadData = () => {
         const docRef = firebase.firestore().collection('doctors');
@@ -51,6 +42,31 @@ export default function DoctorProfile({navigation}) {
                 
             })
 
+    }
+
+    const saveDetails = () => {
+        const data = new FormData()
+
+        data.append("first_name", firstName)
+        data.append("last_name", lastName)
+        data.append("email", email)
+        data.append("mobile", mobile)
+        data.append("verified", false)
+
+        fetch('https://pebble-test.herokuapp.com/doctors/'+ id, {
+            method: 'PATCH',
+            body: data
+        })
+        .then(response => 
+            response.json()
+        )
+        .then(data => {
+            console.log('Success:', data);
+            navigation.navigate('Doctor')
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 
     const onSave = () => {
@@ -82,7 +98,7 @@ export default function DoctorProfile({navigation}) {
             <View style = {{alignItems: 'center', marginTop: 5}}>
         <Image
                 style={styles.userImg}
-                source= {require('../../../assets/onboarding-img1.png')}
+                source= {require('../../../../assets/onboarding-img1.png')}
                 
                 />
                 <Button title="Choose Photo" onPress={handleChoosePhoto} />

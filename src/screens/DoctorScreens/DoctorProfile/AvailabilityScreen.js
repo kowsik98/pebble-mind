@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Alert, Image, Text, TextInput, TouchableOpacity, View, SafeAreaView, ScrollView, Modal, FlatList } from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
-import { firebase } from '../../firebase/config'
+import { firebase } from '../../../firebase/config'
 import styles from '../DoctorProfile/styles';
 import TimePicker from '../DoctorProfile/TimePicker';
 import { ListItem, Avatar, Icon, CheckBox } from 'react-native-elements';

@@ -1,9 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
   import { Alert, Image, Text, TextInput, TouchableOpacity, Pressable, View, SafeAreaView, ScrollView, FlatList } from 'react-native'
   import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-  import styles from '../UserProfile/styles';
-  import { firebase } from '../../firebase/config';
-
+  import styles from '../../UserProfile/styles';
   
 export default function Doctor({navigation, user}){
 
@@ -35,7 +33,7 @@ export default function Doctor({navigation, user}){
         <View style = {{alignItems: 'center', marginTop: 20}}>
         <Image
                 style={styles.userImg}
-                source= {require('../../../assets/onboarding-img1.png')}
+                source= {require('../../../../assets/onboarding-img1.png')}
                 
                 />
                 <Text style={styles.userName}>Suzannah Farrar</Text>

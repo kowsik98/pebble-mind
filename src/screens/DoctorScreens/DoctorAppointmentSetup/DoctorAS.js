@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, FlatList, Alert } from 'react-native'
-import { firebase } from '../../firebase/config'
+import { firebase } from '../../../firebase/config'
 
 export default function DoctorAppointmentSetup() {
 

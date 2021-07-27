@@ -1,42 +1,23 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { Text, View, Button} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DoctorScreen from '../DoctorScreen/DoctorScreen';
+import History from './Components/HistoryScreen/History'
+import Profile from './Components/ProfileScreen/Profile'
+import Doctors from './Components/DoctorsScreen/Doctors'
+import Feed from './Components/FeedScreen/Feed'
 
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-function MedicalHistory() {
-  return (
-    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>MedicalHistory</Text>
-    </View>
-  );
-}
-function Profile() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
-
-
-
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+export default function HomeScreen({route}) {
+  const userID = route.params.user._id
   return (
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: '#189AB4',
+      activeTintColor: '#e91e63',
       }}
     >
       <Tab.Screen
@@ -48,10 +29,11 @@ function MyTabs() {
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
-      />
+      /> 
       <Tab.Screen
-        name="Upcoming Appointments"
-        component={DoctorScreen}
+        name="Doctors"
+        component={Doctors}
+        initialParams={{userID: userID}}
         options={{
           tabBarLabel: 'Doctors',
           tabBarIcon: ({ color, size }) => (
@@ -60,33 +42,26 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="MedicalHistory"
-        component={MedicalHistory}
+        name="History"
+        component={History}
+        initialParams={{userID: userID}}
         options={{
-          tabBarLabel: 'Medical History',
+          tabBarLabel: 'Appoinments',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="history" color={color} size={size} />
-          ),
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),   
         }}
       />
-       <Tab.Screen
+      <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
           ),
         }}
       />
-     
-      
-    </Tab.Navigator>
+  </Tab.Navigator>
   );
-}
-export default function HomeScreen({navigation}) {
-
-    return (    
-      <MyTabs />    
-    )
 }

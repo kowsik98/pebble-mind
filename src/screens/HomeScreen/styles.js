@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+    homeContainer: {
+      height: '100%',
+    },
+    homeContainer__top: {
+      height: 40,
+      backgroundColor: '#fff',
+    },
     container: {
       flex: 1,
       alignItems: 'center'

@@ -1,23 +1,27 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import 'react-native-gesture-handler'
+import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import History from './Components/HistoryScreen/History'
 import Profile from './Components/ProfileScreen/Profile'
-import Doctors from './Components/DoctorsScreen/Doctors'
+import Departments from './Components/DoctorsScreen/Departments'
 import Feed from './Components/FeedScreen/Feed'
+import { View } from 'react-native'
+import styles from './styles'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function HomeScreen({route}) {
-  const userID = route.params.user._id
+  const userID = route.params.user.userID
   return (
+    <View style={styles.homeContainer}>
+      <View style={styles.homeContainer__top}></View>
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-      activeTintColor: '#e91e63',
+      activeTintColor: '#189AB4',
       }}
     >
       <Tab.Screen
@@ -32,7 +36,7 @@ export default function HomeScreen({route}) {
       /> 
       <Tab.Screen
         name="Doctors"
-        component={Doctors}
+        component={Departments}
         initialParams={{userID: userID}}
         options={{
           tabBarLabel: 'Doctors',
@@ -55,6 +59,7 @@ export default function HomeScreen({route}) {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        initialParams={{userID: userID}}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
@@ -63,5 +68,6 @@ export default function HomeScreen({route}) {
         }}
       />
   </Tab.Navigator>
+  </View>
   );
 }

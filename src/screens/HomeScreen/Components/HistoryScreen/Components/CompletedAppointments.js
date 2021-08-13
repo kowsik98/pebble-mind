@@ -7,7 +7,7 @@ export default function CompletedAppointment({userID}) {
     const [appointments, setAppointments] = useState([])
     const fetchData = () => {
         if(appointments.length === 0){
-            fetch('https://pebble-test.herokuapp.com/user/'+userID+'/appointments')
+            fetch('https://pebble-test.herokuapp.com/users/'+userID+'/appointments')
                 .then(response => response.json())
                 .then(data => {
                     var temp = []

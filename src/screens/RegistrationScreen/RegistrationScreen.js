@@ -2,17 +2,20 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { IconButton } from 'react-native-paper'
-import RNDateTimePicker from '@react-native-community/datetimepicker'
+import { IconButton, RadioButton, Checkbox } from 'react-native-paper'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 
 export default function RegistrationScreen({navigation}) {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [dob, setDob] = useState('D.O.B')
+    const [gender, setGender] = useState('male')
+    const [phone, setPhone] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [terms, setTerms] = useState(false)
 
     const [show, setShow] = useState(false)
     const [date, setDate] = useState(new Date())
@@ -22,34 +25,55 @@ export default function RegistrationScreen({navigation}) {
     }
 
     const onRegisterPress = () => {
-        if (password !== confirmPassword) {
-            alert("Passwords don't match.")
-            return
+        if (terms){
+            if (password !== confirmPassword) {
+                alert("Passwords don't match.")
+                return
+            }
+            const data = {
+                'first_name': firstName,
+                'last_name': lastName,
+                'dob': dob,
+                'gender': gender,
+                'email': email,
+                'phone': phone
+            }
+            fetch('https://pebble-test.herokuapp.com/users', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const loginData = {
+                    'email': email,
+                    'password': password,
+                    'userID': data._id
+                }
+                fetch('https://pebble-test.herokuapp.com/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    navigation.navigate('Login')
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         }
-
-        const data = new FormData()
-
-        data.append("first_name", firstName)
-        data.append("last_name", lastName)
-        data.append("dob", dob)
-        data.append("email", email)
-        data.append("password", password)
-        data.append("verified", false)
-
-        fetch('https://pebble-test.herokuapp.com/login', {
-            method: 'POST',
-            body: data
-        })
-        .then(response => 
-            response.json()
-        )
-        .then(data => {
-            console.log('Success:', data);
-            navigation.navigate('Login')
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        else{
+            alert("Accept Terms & Conditions")
+        }
     }
 
     return (
@@ -57,10 +81,11 @@ export default function RegistrationScreen({navigation}) {
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="always">
-                <Image
-                    style={styles.logo}
-                    source={require('../../../assets/icon.png')}
-                />
+                <Text style={styles.title}>Let's Get Started</Text>
+                <View style={styles.footerView}>
+                    <Text style={styles.footerText}>Already have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign In!</Text></Text>
+                </View>
+                <Text style={styles.sectionTitle}>Personal</Text>
                 <TextInput
                     style={styles.input}
                     placeholder='First Name'
@@ -106,7 +131,7 @@ export default function RegistrationScreen({navigation}) {
                 </TouchableOpacity>
                 <View >
                     {show && (
-                        <RNDateTimePicker
+                        <DateTimePicker
                             mode =  { date }    
                             value = { date }
                             maximumDate={new Date()}
@@ -128,7 +153,49 @@ export default function RegistrationScreen({navigation}) {
                         />
                     )}
                 </View>
-                
+                <View style={styles.genderButtonGroup}>
+                    <Text style={styles.genderTitle}>Gender </Text>
+                    <Text style={styles.genderText}>Male</Text>
+                    <RadioButton
+                      value="male"
+                      status={ gender === 'male' ? 'checked' : 'unchecked' }
+                      onPress={() => setGender('male')}
+                      theme={{colors:{
+                          accent: '#53469c',
+                      }}}
+                    />
+                    <Text style={styles.genderText}>Female</Text>
+                    <RadioButton
+                      value="female"
+                      status={ gender === 'female' ? 'checked' : 'unchecked' }
+                      onPress={() => setGender('female')}
+                      theme={{colors:{
+                        accent: '#53469c',
+                    }}}
+                    />
+                    <Text style={styles.genderText}>Other</Text>
+                    <RadioButton
+                      value="other"
+                      status={ gender === 'other' ? 'checked' : 'unchecked' }
+                      onPress={() => setGender('other')}
+                      theme={{colors:{
+                        accent: '#53469c',
+                    }}}
+                    />
+                </View>
+
+                <Text style={styles.sectionTitle}>Contact</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder='Phone No.'
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setPhone(text)}
+                    value={phone}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                />
+
+                <Text style={styles.sectionTitle}>Account</Text>
                 <TextInput
                     style={styles.input}
                     placeholder='E-mail'
@@ -158,14 +225,27 @@ export default function RegistrationScreen({navigation}) {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+                <View style={styles.terms}>
+                    <Checkbox
+                        style={styles.terms__checkbox}
+                        status={terms ? 'checked' : 'unchecked'}
+                        onPress={() => {setTerms(!terms);}}
+                        theme={{
+                            colors:{
+                                accent: '#53469c'
+                            }
+                        }}
+                    />
+                    <Text style={styles.terms__text}>
+                        I agree with the
+                            <Text style={styles.terms__textLink} > terms and conditions</Text>
+                    </Text> 
+                </View>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onRegisterPress()}>
-                    <Text style={styles.buttonTitle}>Create account</Text>
+                    <Text style={styles.buttonTitle}>Next Step</Text>
                 </TouchableOpacity>
-                <View style={styles.footerView}>
-                    <Text style={styles.footerText}>Already got an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>
-                </View>
             </KeyboardAwareScrollView>
         </View>
     )

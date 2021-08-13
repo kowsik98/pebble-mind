@@ -15,8 +15,9 @@ export default function AppointmentDetails({route, navigation}) {
                         <Card>
                             <Card.Content style={{margin: 10, paddingBottom: 10}}>
                                 <Title style={{textAlign:'center', paddingBottom: 15}}>Appointment Details</Title>
-                                <Paragraph>Date - {new Date(Date.parse(details.date)).toLocaleDateString()}  </Paragraph>
-                                <Paragraph>Time - {details.time} </Paragraph>
+                                <Paragraph>Date - {new Date(Date.parse(details.appointmentDetails.date)).toLocaleDateString()}  </Paragraph>
+                                <Paragraph>Time - {details.appointmentDetails.time} </Paragraph>
+                                <Paragraph>Mode - {details.appointmentDetails.mode}</Paragraph>
                             </Card.Content>
                             <Divider />
                             <Divider />

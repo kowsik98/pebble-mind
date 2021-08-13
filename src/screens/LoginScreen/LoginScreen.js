@@ -1,25 +1,28 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { ActivityIndicator } from 'react-native-paper'
 import styles from './styles'
+import { compareSync } from 'bcryptjs'
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(true)
     const onFooterLinkPress = () => {
         navigation.navigate('Registration')
     }
     const onLoginPress = () => {
         var flag = true
-        fetch('https://pebble-test.herokuapp.com/login')
+        fetch('https://pebble-test.herokuapp.com/users/login')
             .then(response => response.json())
             .then(data => {
                 data.forEach(function(doc){
                     var tempEmail = doc.email
                     var tempPass = doc.password
-                    if(tempEmail === email && tempPass === password){
+                    if (email==tempEmail && compareSync(password, tempPass)){
                         navigation.navigate('Home', {user: doc}) 
-                        flag = false
+                        flag = false             
                     }
                 })
                 if(flag){
@@ -38,7 +41,7 @@ export default function LoginScreen({navigation}) {
                 keyboardShouldPersistTaps="always">
                 <Image
                     style={styles.logo}
-                    source={require('../../../assets/favicon.png')}
+                    source={require('../../../assets/pebble.png')}
                 />
                 <TextInput
                     style={styles.input}

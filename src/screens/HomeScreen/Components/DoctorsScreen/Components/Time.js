@@ -4,6 +4,7 @@ import { ActivityIndicator, Button, Caption } from 'react-native-paper'
 import styles from './styles'
 
 export default function Time({route, navigation}) {
+    console.log(route)
     const date = route.params.day.dateString
     const day = new Date(route.params.day.timestamp).getDay()
     const doctor_id = route.params.doctor_id
@@ -30,9 +31,9 @@ export default function Time({route, navigation}) {
                 .then(data => {
                     var tempTimings = []
                     data.forEach((doc) => {
-                        var check = new Date(Date.parse(doc.date)).toISOString().slice(0, 10)
+                        var check = new Date(Date.parse(doc.appointmentDetails.date)).toISOString().slice(0, 10)
                         if(date === check){
-                            tempTimings.push(doc.time)
+                            tempTimings.push(doc.appointmentDetails.time)
                         }                        
                     })
                     if (tempTimings.length !== 0){

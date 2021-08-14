@@ -5,7 +5,6 @@ import styles from '../styles'
 
 export default function AppointmentDetails({route, navigation}) {
     const details = route.params.appointmentDetails
-    var id = details.meeting_id.toString()
     return (
         <ScrollView>
             <Text style= {{ textAlign:'center', fontSize: 25, fontWeight:'bold',margin: 50 }}>Details</Text>
@@ -23,13 +22,22 @@ export default function AppointmentDetails({route, navigation}) {
                             <Divider />
                             <Divider />
                             <Divider />
-                            <Divider />                            
-                            <Card.Content style={{margin: 10}}>
-                                <Title style={{textAlign:'center', paddingBottom: 15}}>Meeting Credentials</Title>
-                                <Paragraph>Meeting ID - {id.slice(0,3)+ ' ' + id.slice(3,7) + ' ' + id.slice(7, id.length)} </Paragraph>
-                                <Paragraph>Passcode - {details.password} </Paragraph>
-                                <Paragraph>Click <Text style={{color:'blue'}} onPress={() => Linking.openURL(details.join_url)}>here</Text> to join using browser.</Paragraph>
-                            </Card.Content>    
+                            <Divider />
+                            {
+                                details.meeting_id ? (
+                                    <Card.Content style={{margin: 10}}>
+                                        <Title style={{textAlign:'center', paddingBottom: 15}}>Meeting Credentials</Title>
+                                        <Paragraph>Meeting ID - {details.meeting_id.toString().slice(0,3)+ ' ' + details.meeting_id.toString().slice(3,7) + ' ' + details.meeting_id.toString().slice(7, details.meeting_id.toString().length)} </Paragraph>
+                                        <Paragraph>Passcode - {details.password} </Paragraph>
+                                        <Paragraph>Click <Text style={{color:'blue'}} onPress={() => Linking.openURL(details.join_url)}>here</Text> to join using browser.</Paragraph>
+                                    </Card.Content> 
+
+                                ) : (
+                                    <Card.Content style={{margin: 10}}>
+                                        <Title style={{textAlign:'center', paddingBottom: 15}}>In Clinic Appointment</Title>
+                                    </Card.Content> 
+                                )
+                            }                               
                         </Card>
                     </View>
                 </Surface>

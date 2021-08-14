@@ -12,7 +12,7 @@ export default function CompletedAppointment({userID}) {
                 .then(data => {
                     var temp = []
                     data.forEach((doc) => {
-                        var docDate = new Date(Date.parse(doc.date))
+                        var docDate = new Date(Date.parse(doc.appointmentDetails.date))
                         if(new Date() > docDate){
                             temp.push(doc)
                         }
@@ -36,10 +36,10 @@ export default function CompletedAppointment({userID}) {
                     <View style={styles.card}>
                         <View style={styles.cardInfo}>
                             <Text style={styles.cardTitle}>
-                                {value.type}
+                                {value.appointmentDetails.type}
                             </Text>
                             <Text style={styles.cardDetails}>
-                                {new Date(Date.parse(value.date)).toDateString() + ' - ' + value.time}
+                                {new Date(Date.parse(value.appointmentDetails.date)).toDateString() + ' - ' + value.appointmentDetails.time}
                             </Text>
                         </View>
                     </View>

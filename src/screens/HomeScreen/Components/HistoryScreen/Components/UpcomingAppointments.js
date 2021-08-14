@@ -12,7 +12,6 @@ export default function UpcomingAppointments({userID, navigation}){
                 var temp = []
                 data.forEach((doc) => {
                     var docDate = new Date(Date.parse(doc.appointmentDetails.date))
-                    console.log(docDate)
                     if(new Date() <= docDate){
                         temp.push(doc)
                     }
@@ -26,7 +25,7 @@ export default function UpcomingAppointments({userID, navigation}){
     useFocusEffect(
         React.useCallback(() => {
             fetchData()
-        }, [appointments])
+        }, [])
     )
 
     return (
